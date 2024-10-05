@@ -16,7 +16,7 @@ struct Node {
 
 // Custom comparator for priority queue
 struct compare {
-    bool operator()(Node* l, Node* r) {
+    bool operator()(Node* l, Node* r) {    // This ensures that nodes with lower frequency have higher priority
         return l->freq > r->freq;
     }
 };
