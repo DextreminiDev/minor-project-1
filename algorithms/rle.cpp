@@ -8,9 +8,12 @@ void decompress_text_file(const string& input_file, const string& output_file);
 
 
 int main(void){
-    string input_txt = "";
-    string compressed_txt = "";
-    string decompressed_txt = "";
+    string path = "";
+    string input_file = "";
+
+    string input_txt = path + input_file;
+    string compressed_txt = path + "compressed_" + input_file;
+    string decompressed_txt = path + "decompressed_" + input_file;
 
     // Compress the text file
     compress_text_file(input_txt, compressed_txt);
@@ -30,7 +33,7 @@ void compress_text_file(const string& input_file, const string& output_file){
     ifstream in(input_file);
     ofstream out(output_file);
 
-    if (!in || !out){
+    if(!in || !out){
         cerr << "Error opening file!" << endl;
         return;
     }
@@ -42,10 +45,11 @@ void compress_text_file(const string& input_file, const string& output_file){
     in.get(previous_char);
 
     // Iterate through the file
-    while (in.get(current_char)){
-        if (current_char == previous_char){
+    while(in.get(current_char)){
+        if(current_char == previous_char){
             count++;
-        } else{
+        } 
+        else{
             out << previous_char << count;  // Write character and count
             previous_char = current_char;   // Update the current character
             count = 1;
@@ -66,7 +70,7 @@ void decompress_text_file(const string& input_file, const string& output_file){
     ifstream in(input_file);
     ofstream out(output_file);
 
-    if (!in || !out){
+    if(!in || !out){
         cerr << "Error opening file!" << endl;
         return;
     }
@@ -75,7 +79,7 @@ void decompress_text_file(const string& input_file, const string& output_file){
     int count;
 
     // Read character and count pair from input
-    while (in >> ch >> count){
+    while(in >> ch >> count){
         out << string(count, ch);  // Write character 'count' times
     }
 
