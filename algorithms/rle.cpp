@@ -8,8 +8,8 @@ void decompress_text_file(const string& input_file, const string& output_file);
 
 
 int main(void){
-    string path = "";
-    string input_file = "";
+    string path = "C:\\Users\\milin\\Desktop\\Stuff\\Computer Science\\Minor Project - 1\\test\\rle\\large_files\\";
+    string input_file = "repeatingchars.txt";
 
     string input_txt = path + input_file;
     string compressed_txt = path + "compressed_" + input_file;
