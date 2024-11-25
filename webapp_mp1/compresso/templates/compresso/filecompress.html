@@ -1,0 +1,55 @@
+{% extends "compresso/layout.html" %}
+{% load static %}
+
+{% block title %}
+    File
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Compression</h2>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="compressionAlgorithm" class="form-label">Algorithm</label>
+                        <select id="compressionAlgorithm" name="algorithm" class="form-select">
+                            <option value="RLE">Run length encoding (RLE)</option>
+                            <option value="LZW">Lempel-Ziv-Welch (LZW)</option>
+                            <option value="Tunstall">Tunstall</option>
+                            <option value="Huffman">Huffman</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="compressionFile" class="form-label">Select file</label>
+                        <input class="form-control" type="file" id="compressionFile" name="file">
+                    </div>
+                    <button class="btn btn-primary w-100" type="submit" name="compress">Compress</button>
+                </form>
+            </div>
+
+            <div class="col-md-6">
+                <h2>Decompression</h2>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="decompressionAlgorithm" class="form-label">Algorithm</label>
+                        <select id="decompressionAlgorithm" name="algorithm" class="form-select">
+                            <option value="RLE">Run length encoding (RLE)</option>
+                            <option value="LZW">Lempel-Ziv-Welch (LZW)</option>
+                            <option value="Tunstall">Tunstall</option>
+                            <option value="Huffman">Huffman</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="decompressionFile" class="form-label">Select file</label>
+                        <input class="form-control" type="file" id="decompressionFile" name="file">
+                    </div>
+                    <button class="btn btn-primary w-100" type="submit" name="decompress">Decompress</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
