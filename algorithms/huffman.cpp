@@ -1,11 +1,14 @@
+// Huffman
+
 #include <iostream>
 #include <fstream>
 #include <queue>
 #include <unordered_map>
 #include <vector>
 #include <bitset>
-#include <sys/stat.h>
+#include <chrono> // For measuring time
 using namespace std;
+using namespace chrono;
 
 // Node structure for Huffman Tree
 struct Node {
@@ -16,7 +19,7 @@ struct Node {
 
 // Custom comparator for priority queue
 struct compare {
-    bool operator()(Node* l, Node* r) {    // This ensures that nodes with lower frequency have higher priority
+    bool operator()(Node* l, Node* r) {
         return l->freq > r->freq;
     }
 };
@@ -54,17 +57,16 @@ string decode(Node* root, string encodedStr) {
         else
             currentNode = currentNode->right;
 
-        // If we reach a leaf node
         if (!currentNode->left && !currentNode->right) {
             result += currentNode->ch;
-            currentNode = root;  // Restart from the root for the next character
+            currentNode = root;
         }
     }
     return result;
 }
 
 // Function to build Huffman Tree and compress the file
-void buildHuffmanTree(string inputFilePath, string outputFilePath) {
+void buildHuffmanTree(string inputFilePath, string outputFilePath, Node*& root) {
     ifstream inputFile(inputFilePath, ios::in);
     if (!inputFile.is_open()) {
         cout << "Error: Could not open input file!" << endl;
@@ -91,7 +93,7 @@ void buildHuffmanTree(string inputFilePath, string outputFilePath) {
         pq.push(getNode('\0', sum, left, right));
     }
 
-    Node* root = pq.top();
+    root = pq.top();
 
     unordered_map<char, string> huffmanCode;
     encode(root, "", huffmanCode);
@@ -144,17 +146,14 @@ void decompressFile(string compressedFilePath, string decompressedFilePath, Node
     string encodedString = "";
     char byte;
     while (inputFile.get(byte)) {
-        bitset<8> bits(byte);
+        bitset<8> bits((unsigned char)byte);
         encodedString += bits.to_string();
     }
 
-    // Remove the extra padding bits
     encodedString = encodedString.substr(0, encodedString.size() - extraBits);
 
-    // Decode the encoded string using the Huffman tree
     string decodedString = decode(root, encodedString);
 
-    // Write the decoded content to the output file
     outputFile << decodedString;
 
     inputFile.close();
@@ -163,43 +162,22 @@ void decompressFile(string compressedFilePath, string decompressedFilePath, Node
 }
 
 int main() {
-    string inputFilePath, compressedFilePath, decompressedFilePath;
+    string inputFilePath = "words_alpha.txt";
+    string compressedFilePath = "xyz_huff";
+    string decompressedFilePath = "huf.txt";
+    Node* root = nullptr;
 
-    cout << "Enter the path of the file to compress: ";
-    cin >> inputFilePath;
-    cout << "Enter the path to save the compressed file: ";
-    cin >> compressedFilePath;
+    auto startEncoding = high_resolution_clock::now();
+    buildHuffmanTree(inputFilePath, compressedFilePath, root);
+    auto endEncoding = high_resolution_clock::now();
+    auto encodingDuration = duration_cast<milliseconds>(endEncoding - startEncoding);
+    cout << "Encoding Time: " << encodingDuration.count() << " ms" << endl;
 
-    // Step 1: Compress the file
-    buildHuffmanTree(inputFilePath, compressedFilePath);
-
-    // Step 2: Decompress the file
-    cout << "Enter the path to save the decompressed file: ";
-    cin >> decompressedFilePath;
-
-    // Assuming we still have the Huffman tree (you can store and load it in practice)
-    ifstream inputFile(inputFilePath, ios::in);
-    unordered_map<char, int> freq;
-    char ch;
-    while (inputFile.get(ch)) {
-        freq[ch]++;
-    }
-    inputFile.close();
-
-    priority_queue<Node*, vector<Node*>, compare> pq;
-    for (auto pair : freq) {
-        pq.push(getNode(pair.first, pair.second, nullptr, nullptr));
-    }
-
-    while (pq.size() != 1) {
-        Node* left = pq.top(); pq.pop();
-        Node* right = pq.top(); pq.pop();
-        int sum = left->freq + right->freq;
-        pq.push(getNode('\0', sum, left, right));
-    }
-
-    Node* root = pq.top();
+    auto startDecoding = high_resolution_clock::now();
     decompressFile(compressedFilePath, decompressedFilePath, root);
+    auto endDecoding = high_resolution_clock::now();
+    auto decodingDuration = duration_cast<milliseconds>(endDecoding - startDecoding);
+    cout << "Decoding Time: " << decodingDuration.count() << " ms" << endl;
 
     return 0;
 }
