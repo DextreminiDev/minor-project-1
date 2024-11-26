@@ -5,5 +5,71 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Homepage</h1>
+    <div class="container mt-5">
+        <h1 class="text-center">Compression Algorithms</h1>
+
+        <div class="row mt-4 d-flex align-items-stretch">
+            <!-- Huffman Coding Section -->
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h4>Huffman Coding</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Huffman coding is a popular algorithm used for lossless data compression. 
+                            It assigns variable-length codes to input characters, with shorter codes 
+                            assigned to more frequent characters. This reduces the overall size of the data.
+                        </p>
+                        <ul>
+                            <li>Based on frequency of characters.</li>
+                            <li>Greedy algorithm for optimal coding.</li>
+                            <li>Used in formats like ZIP and JPEG.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Run-Length Encoding Section -->
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-header bg-success text-white">
+                        <h4>Run-Length Encoding (RLE)</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Run-Length Encoding is a simple form of data compression where consecutive 
+                            occurrences of the same data value are stored as a single data value and count.
+                        </p>
+                        <ul>
+                            <li>Effective for repetitive data.</li>
+                            <li>Commonly used in image compression.</li>
+                            <li>Not effective for non-repetitive data.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lempel-Ziv-Welch Section -->
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-header bg-warning text-dark">
+                        <h4>Lempel-Ziv-Welch (LZW)</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Lempel-Ziv-Welch (LZW) is a dictionary-based compression algorithm that replaces 
+                            repeated occurrences of data with references to a dictionary of previously 
+                            encountered strings.
+                        </p>
+                        <ul>
+                            <li>Uses a dynamic dictionary for compression.</li>
+                            <li>Widely used in GIF and TIFF image formats.</li>
+                            <li>Efficient for textual data with repeating patterns.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -1,0 +1,32 @@
+{% extends "compresso/layout.html" %}
+
+{% block title %}
+    Comparison
+{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <!-- Category 1 -->
+        <h2 class="text-center">Size</h2>
+        <div class="row g-2">
+            {% for image_url in category1_images %}
+                <div class="col-12 d-flex justify-content-center">
+                    <img src="{{ image_url }}" alt="Category 1 Image" class="img-small img-fluid rounded">
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Divider -->
+        <hr class="my-5">
+
+        <!-- Category 2 -->
+        <h2 class="text-center">Time</h2>
+        <div class="row g-2">
+            {% for image_url in category2_images %}
+                <div class="col-12 d-flex justify-content-center">
+                    <img src="{{ image_url }}" alt="Category 2 Image" class="img-small img-fluid rounded">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

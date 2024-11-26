@@ -49,3 +49,33 @@ def file_compress(request):
 
     else:
         return render(request, "compresso/filecompress.html")
+
+def comparison(request):
+    # Paths for the two categories
+    category1_folder = os.path.join(settings.MEDIA_ROOT, "compresso", "images", "size")
+    category2_folder = os.path.join(settings.MEDIA_ROOT, "compresso", "images", "time")
+
+    # Debug: Verify paths
+    if not os.path.exists(category1_folder):
+        print(f"Category 1 folder not found: {category1_folder}")
+    if not os.path.exists(category2_folder):
+        print(f"Category 2 folder not found: {category2_folder}")
+
+    # Generate image URLs
+    category1_images = [
+        f"{settings.MEDIA_URL}compresso/images/size/{img}"
+        for img in os.listdir(category1_folder)
+        if img.endswith((".png", ".jpg", ".jpeg"))
+    ] if os.path.exists(category1_folder) else []
+
+    category2_images = [
+        f"{settings.MEDIA_URL}compresso/images/time/{img}"
+        for img in os.listdir(category2_folder)
+        if img.endswith((".png", ".jpg", ".jpeg"))
+    ] if os.path.exists(category2_folder) else []
+
+    # Pass the URLs to the template
+    return render(request, "compresso/comparison.html", {
+        "category1_images": category1_images,
+        "category2_images": category2_images,
+    })

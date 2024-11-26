@@ -7,7 +7,8 @@ from . import views
 urlpatterns = [
     path("", views.index, name="index"),
     path("text", views.text_compress, name="text"),
-    path("file", views.file_compress, name="file")
+    path("file", views.file_compress, name="file"),
+    path("comparison", views.comparison, name="comparison")
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
